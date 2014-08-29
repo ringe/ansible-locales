@@ -34,11 +34,11 @@
 - name: 'Configure system locale'
   sudo: 'yes'
   locale_gen: >
-    name={{ locale }}
+    name={{ locale }}.{{ encoding }}
     state=present
 
 - name: 'Export LC_ALL environment variable in ~/.profile'
   lineinfile: >
     dest=/home/{{ ansible_ssh_user }}/.profile
     create=yes
-    line="export LC_ALL={{ locale }}"
+    line="export LC_ALL={{ locale }}.{{ encoding }}"
