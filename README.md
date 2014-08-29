@@ -16,10 +16,6 @@ The default variables are as follows:
       - 'language-pack-en'
       - 'language-pack-en-base'
 
-## Dependencies
-
-[Locales](https://github.com/ssilab/ansible-locales)
-
 ## Example Playbook
 
     - hosts: 'servers'
