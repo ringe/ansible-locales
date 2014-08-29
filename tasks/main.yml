@@ -1,0 +1,44 @@
+---
+- name: 'Install locales'
+  sudo: 'yes'
+  apt: >
+    pkg=locales
+    state=latest
+    update_cache=true
+
+- name: 'Install language packs'
+  sudo: 'yes'
+  apt: >
+    pkg={{ item }}
+    state=latest
+    update_cache=true
+  with_items: 'locale_language_packs'
+  register: 'locale_languages'
+
+- name: 'Reconfigure dpkg'
+  sudo: 'yes'
+  command: 'dpkg-reconfigure locales'
+  when: 'locale_languages.changed'
+
+- name: 'Detect locale configuration file'
+  stat: 'path=/var/lib/locales/supported.d/local'
+  register: 'locale_configuration'
+
+- name: 'Create locale configuration file'
+  sudo: 'yes'
+  file: >
+    path=/var/lib/locales/supported.d/local
+    state=touch
+  when: 'not locale_configuration.stat.exists'
+
+- name: 'Configure system locale'
+  sudo: 'yes'
+  locale_gen: >
+    name={{ locale }}
+    state=present
+
+- name: 'Export LC_ALL environment variable in ~/.profile'
+  lineinfile: >
+    dest=/home/{{ ansible_ssh_user }}/.profile
+    create=yes
+    line="export LC_ALL={{ locale }}"
