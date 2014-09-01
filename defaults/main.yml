@@ -1,5 +1,5 @@
 ---
-locale: 'en_AU.{{ encoding }}'
+locale: 'en_AU'
 encoding: 'UTF-8'
 locale_language_packs:
   - 'language-pack-en'
