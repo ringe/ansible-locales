@@ -41,8 +41,8 @@
   sudo: 'yes'
   locale_gen: >
     name={{ locale }}.{{ encoding }}
-      tags: 'locales'
     state=present
+  tags: 'locales'
 
 - name: 'Export LC_ALL environment variable in ~/.profile'
   tags: 'locales'
