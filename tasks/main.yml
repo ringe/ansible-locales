@@ -47,6 +47,6 @@
 - name: 'Export LC_ALL environment variable in ~/.profile'
   tags: 'locales'
   lineinfile: >
-    dest=/home/{{ ansible_ssh_user }}/.profile
+    dest=/home/{{ locales_user }}/.profile
     create=yes
     line="export LC_ALL={{ locale }}.{{ encoding }}"

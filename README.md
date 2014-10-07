@@ -12,6 +12,7 @@ The default variables are as follows:
 
     locale: 'en_AU'
     encoding: 'UTF-8'
+    locales_user: '{{ ansible_ssh_user }}'
     locale_language_packs:
       - 'language-pack-en'
       - 'language-pack-en-base'
@@ -20,7 +21,10 @@ The default variables are as follows:
 
     - hosts: 'servers'
       roles:
-         - { role: 'ssilab.locales', locale: 'en_AU' }
+        - role: 'ssilab.locales'
+	      locale: 'en_AU'
+	      encoding: 'UTF-8'
+	      locales_user: 'hercules'
 
 # License
 
