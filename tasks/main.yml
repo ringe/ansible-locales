@@ -51,24 +51,21 @@
     create=yes
     line="export LC_ALL={{ locale }}.{{ encoding }}"
 
-- name: Group by Distribution
-  hosts: all
-  tasks:
-    - group_by: key=${ansible_distribution}
+- name: 'Set timezone'
+  sudo: 'yes'
+  tags:
+    - 'locales'
+    - 'timezone'
+  copy: >
+    content='Etc/UTC'
+    dest=/etc/timezone
+    owner=root
+    group=root
+    mode=0644
 
-- name: Set Time Zone
-  hosts: Ubuntu
-  gather_facts: False
-  tasks:
-    - name: Set timezone variables
-      copy: content='America/Los_Angeles'
-            dest=/etc/timezone
-            owner=root
-            group=root
-            mode=0644
-            backup=yes
-      notify:
-        - update timezone
-  handlers:
-    - name: update timezone
-      command: dpkg-reconfigure --frontend noninteractive tzdata
+- name: 'Update timezone'
+  sudo: 'yes'
+  tags:
+    - 'locales'
+    - 'timezone'
+  command: 'dpkg-reconfigure --frontend noninteractive tzdata'
