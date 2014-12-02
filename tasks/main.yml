@@ -50,3 +50,24 @@
     dest=/home/{{ locales_user }}/.profile
     create=yes
     line="export LC_ALL={{ locale }}.{{ encoding }}"
+
+- name: 'Group by Distribution'
+  hosts: 'all'
+  tasks:
+    - group_by: 'key=${ansible_distribution}'
+
+- name: 'Set Time Zone'
+  tasks:
+    - name: 'Set timezone variables'
+      copy: >
+        content='Etc/UTC'
+        dest=/etc/timezone
+        owner=root
+        group=root
+        mode=0644
+        backup=yes
+      notify:
+        - 'update timezone'
+  handlers:
+    - name: 'update timezone'
+      command: 'dpkg-reconfigure --frontend noninteractive tzdata'
