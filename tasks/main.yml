@@ -14,7 +14,7 @@
     pkg={{ item }}
     state=latest
     update_cache=true
-  with_items: 'locale_language_packs'
+  with_items: "{{ locale_language_packs }}"
   register: 'locale_languages'
 
 - name: 'Reconfigure dpkg'
